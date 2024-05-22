@@ -116,7 +116,9 @@ const MapPage = ({ match }) => {
       console.error('Error creating map:', err);
       setErrorMap(err.message);
     }
-  },[loadingMap, birdNames]);
+  },[loadingMap, birdNames, supabase, setErrorMap, setPlaces, setSelectedPost, setSelectedBirdName, setSelectedUsername, setShowModal, mapRef]);
+  // was [loadingMap, birdNames] before including absolutly everythong
+
 
   useEffect(() => {
     const initializeScript = async () => {
