@@ -19,13 +19,12 @@ const MapPage = ({ match }) => {
   const [selectedBirdName, setSelectedBirdName] = useState('');
   const [selectedUsername, setSelectedUsername] = useState('');
 
-  const { birdNames, loading, error } = useFetchNames();
+  const { birdNames, loading} = useFetchNames();
 
 
   const initializeMap = async () => {
     try {
       //console.log(lat, lng);
-      let center;
 
       if (!lat || !lng) {
         if (navigator.geolocation) {
@@ -170,7 +169,7 @@ const MapPage = ({ match }) => {
     if (scriptLoaded && loader) {
       initializeMap();
     }
-  }, [scriptLoaded, loader]);
+  }, [scriptLoaded, loader, initializeMap]);
 
   const handleCloseModal = () => {
     setShowModal(false);

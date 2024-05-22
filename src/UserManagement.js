@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
-import { useAuth } from './SupabaseContext';
 
 const UserManagement = () => {
-  const { user } = useAuth();
+  //const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({
     username: '',

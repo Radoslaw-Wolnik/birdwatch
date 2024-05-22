@@ -70,7 +70,7 @@ const Post = ({ post, birdName, username }) => {
       }
     };
     fetchTotalLikes();
-  }, [post.id, user]);
+  }, [post.id, user, post.user_id]);
 
   const handleLike = async () => {
     if (isLiked) {
@@ -135,7 +135,7 @@ const Post = ({ post, birdName, username }) => {
         <div className="photos-container">
           <img
             src={`${supabase.storage.url}/object/public/Posts/${post.user_id}/${post.id}/${images[currentImageIndex].name}`}
-            alt={`Photo of ${birdName} number: ${currentImageIndex}`}
+            alt={`bird name: ${birdName} number: ${currentImageIndex}`}
             onClick={() =>
               handleImageClick(
                 `${supabase.storage.url}/object/public/Posts/${post.user_id}/${post.id}/${images[currentImageIndex].name}`

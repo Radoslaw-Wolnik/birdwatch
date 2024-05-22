@@ -79,7 +79,7 @@ const Friends = () => {
       fetchFriendData();
       fetchPurgatoryData();
     }
-  }, [user.id]);
+  }, [fetchFriendData, fetchPurgatoryData, fetchRequestData, user.id]);
   
 
   const handleSearchQueryChange = (e) => {
@@ -220,7 +220,7 @@ const Friends = () => {
             </div>
             <div className="search-results">
               <h2>Search results for: {searchQuery}</h2>
-              {searchResults == 0 ? (
+              {searchResults === 0 ? (
                 <p>No results found.</p>
               ) : (
                 <ul className="user-list">

@@ -22,7 +22,7 @@ const PostManagement = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, fetchPosts]);
 
   const fetchPosts = async () => {
     try {
@@ -136,11 +136,6 @@ const PostManagement = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleBirdChange = (event) => {
-    const selectedName = event.target.value;
-    const selectedBird = birdNames.find(bird => bird.name === selectedName);
-    setSelectedBird(selectedBird);
-  };
 
   return (
     <div>
@@ -229,7 +224,7 @@ const PostManagement = () => {
                 {post.has_photos > 0 ? (
                   <><img
                     src={`${supabase.storage.url}/object/public/Posts/${post.user_id}/${post.id}/${birdNames[post.bird_id]}_0.png`}
-                    alt="image"
+                    alt={`${birdNames[post.bird_id]}`}
                     style={{ maxWidth: '100px' }}
                   /></>
                 ) : (<p>no image</p>)}
