@@ -169,7 +169,7 @@ const MapPage = ({ match }) => {
     if (scriptLoaded && loader) {
       initializeMap();
     }
-  }, [scriptLoaded, loader, initializeMap]);
+  }, [scriptLoaded, loader]);
 
   const handleCloseModal = () => {
     setShowModal(false);

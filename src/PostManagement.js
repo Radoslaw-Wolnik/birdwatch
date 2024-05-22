@@ -22,7 +22,7 @@ const PostManagement = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [currentPage, searchQuery, fetchPosts]);
+  }, [currentPage, searchQuery]);
 
   const fetchPosts = async () => {
     try {

@@ -79,7 +79,7 @@ const Friends = () => {
       fetchFriendData();
       fetchPurgatoryData();
     }
-  }, [fetchFriendData, fetchPurgatoryData, fetchRequestData, user.id]);
+  }, [user.id]);
   
 
   const handleSearchQueryChange = (e) => {
