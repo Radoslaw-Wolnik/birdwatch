@@ -5,8 +5,7 @@ import { useAuth } from './SupabaseContext';
 import { supabase } from './supabaseClient';
 
 const Navbar = () => {
-  const { user, session, logout } = useAuth();
-  const [authenticated, setAuthenticated] = useState(false);
+  const { session, logout } = useAuth();
   const [moderator, setModerator] = useState(false);
   const [admin, setAdmin] = useState(false);
   const [developer, setDeveloper] = useState(false);
@@ -80,7 +79,6 @@ const Navbar = () => {
   }, [session]);
 
   useEffect(() => {
-    setAuthenticated(session !== null);
 
     if (session) {
       fetchUsername();

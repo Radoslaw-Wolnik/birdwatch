@@ -139,7 +139,6 @@ const BirdManagement = () => {
             species: newBird.species,
             description: newBird.description,
             link: newBird.link,
-            species: newBird.species,
           })
           .eq('id', editingBird.id)
           .select();
@@ -319,7 +318,7 @@ const BirdManagement = () => {
                 {bird && (
                   <img
                     src={`${supabase.storage.url}/object/public/Bird_Photos/public/${bird.link}.png`}
-                    alt="Bird Photo"
+                    alt={`Bird ${bird.name} from ${bird.link}`}
                     style={{ maxWidth: '100px' }}
                   />
                 )}

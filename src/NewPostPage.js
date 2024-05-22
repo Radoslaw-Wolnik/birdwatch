@@ -17,7 +17,7 @@ const NewPostPage = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
-  const [markerLocation, setMarkerLocation] = useState(null)
+  // const [markerLocation, setMarkerLocation] = useState(null)
 
   const userId = user ? user.id : null; // Extract userId from user object
 
@@ -57,7 +57,7 @@ const NewPostPage = () => {
         zoom: 12,
       });
       setMap(map);
-      setMarkerLocation(location);
+      // setMarkerLocation(location);
     }
   }, [location]);
 
@@ -69,16 +69,17 @@ const NewPostPage = () => {
         draggable: true,
       });
       setMarker(marker);
+      // console.log(marker);
 
       map.addListener('click', (event) => {
         marker.setPosition(event.latLng);
-        setMarkerLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+        // setMarkerLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
         //setLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
       });
 
       marker.addListener('dragend', () => {
         //setLocation({ lat: marker.getPosition().lat(), lng: marker.getPosition().lng() });
-        setMarkerLocation({ lat: marker.getPosition().lat(), lng: marker.getPosition().lng() });
+        // setMarkerLocation({ lat: marker.getPosition().lat(), lng: marker.getPosition().lng() });
       });
     }
   }, [map]);
@@ -106,7 +107,7 @@ const NewPostPage = () => {
       // Upload each photo to the user's folder with post_id and bird_name
       await Promise.all(
         images.map(async (photo, index) => {
-          const { data, error } = await supabase.storage
+          const { error } = await supabase.storage
             .from('Posts')
             .upload(`${userId}/${postId}/${selectedBird.name}_${index}`, photo);
   
@@ -134,8 +135,8 @@ const NewPostPage = () => {
           user_id: userId,
           bird_id: selectedBird.id,
           description: description,
-          lat: markerLocation ? markerLocation.lat : null,
-          lng: markerLocation ? markerLocation.lng : null,
+          lat: marker ? marker.getPosition().lat() : null,
+          lng: marker ? marker.getPosition().lng() : null,
           has_photos: hasPhotos,
         })
         .select()
@@ -213,8 +214,8 @@ const NewPostPage = () => {
           {location && (
             <div>
               <p>Pin location:</p>
-              <p>Latitude: {markerLocation?.lat}</p>
-              <p>Longitude: {markerLocation?.lng}</p>
+              <p>Latitude: {marker?.getPosition().lat()}</p>
+              <p>Longitude: {marker?.getPosition().lng()}</p>
             </div>
           )}
           <div ref={mapRef} style={{ height: '400px' }} />
