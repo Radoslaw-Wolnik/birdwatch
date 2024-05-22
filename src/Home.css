@@ -1,0 +1,25 @@
+.home {
+    display: flex;
+    flex: 1; /* Fill available space */
+    overflow-y: auto;
+    height: calc(100vh - 41px - 57px);
+}
+  
+.home main {
+    display: flex; /* Make main a flex container */
+    flex-direction: column; /* Arrange children vertically */
+    align-items: center; /* Vertically center flex items */
+    padding-top: 80px; /* Added padding-top */
+    height: auto; 
+     /* Set main container height to fill viewport */
+    width: 100%;
+}
+  
+.home section {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}

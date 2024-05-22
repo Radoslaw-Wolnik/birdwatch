@@ -1,0 +1,14 @@
+/* NewPostPage.css */
+.new-post-page {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+
+  }
+  
+  .new-post-page main {
+    width: 80%;
+    max-width: 1200px;
+    margin: 10px auto 20px; /* Added top margin */
+    overflow-y: auto;
+  }

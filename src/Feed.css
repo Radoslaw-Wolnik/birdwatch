@@ -1,0 +1,14 @@
+/* Feed.css */
+.feed {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .feed main {
+    width: 80%;
+    max-width: 1200px;
+    margin: 10px auto 20px; /* Added top margin */
+    overflow-y: auto;
+  }

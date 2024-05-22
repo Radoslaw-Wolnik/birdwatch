@@ -1,0 +1,39 @@
+
+.bird-card {
+  padding: 5px;
+  box-shadow: 0 8px 16px rgba(19, 17, 17, 0.815); /* Default box shadow */
+  border-radius: 12px;
+  transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+.bird-card:hover {
+  box-shadow: 0 8px 16px rgba(33, 79, 230, 0.589); /* Change box shadow on hover */
+}
+
+.bird-card h3 {
+  margin-top: auto; /* Push the title to the top */
+}
+
+.bird-card img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.bird-card a {
+  width: 100%; /* Set its width to 100% */
+  height: 100%; /* Set its height to 100% */
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start; /* Align items to the start (top) */
+  align-items: center; /* Center items horizontally */
+}
+
+.bird-card a:hover {
+  color: #007bff; /* Change color on hover */
+}

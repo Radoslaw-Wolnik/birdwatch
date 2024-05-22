@@ -1,0 +1,7 @@
+Website:
+https://console.cloud.google.com/google/maps-apis/home?project=birdmap-422917
+
+Default first map:
+AIzaSyAWtmDrdiHgDGN4Eink04t228tIvexWw4s
+Birds:
+AIzaSyARi-kUu_m7dTo5nXxLjPfiueU8iC4EIAU

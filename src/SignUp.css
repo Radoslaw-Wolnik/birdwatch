@@ -1,0 +1,78 @@
+.singup {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+  height: calc(100vh - 41px - 57px);
+}
+
+.signup main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed from center to flex-start */
+  padding-top: 40px; /* Added padding-top */
+  padding-bottom: 40px;
+}
+
+.signup section {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+  
+.signup h2 {
+  margin-bottom: 20px;
+}
+
+.password-wrapper {
+  margin-bottom: 5px;
+  margin-left: auto;
+}
+
+.signup form .password-wrapper label {
+  display: inline;
+  margin-bottom: 0px;
+}
+
+.signup form .password-wrapper input[type="checkbox"] {
+  width: 20px;
+  margin-left: 5px;
+}
+
+.signup form input,
+.signup form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#password{
+  margin-bottom: 0px;
+}
+
+.signup form label {
+  display: block;
+}
+
+  
+  
+.signup form button[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup form button[type="submit"]:hover {
+  background-color: #0056b3;
+}

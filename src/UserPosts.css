@@ -1,0 +1,23 @@
+.posts-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+}
+  
+  .post {
+    border: 1px solid #000000;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: auto;
+    display: inline-block;
+    vertical-align: top;
+    flex: 0 0 auto;
+    max-width: 500px; /* Adjust this value to set the maximum width of each post */
+  }
+  
+  .post img {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* Adjust this value to set the maximum height of the image */
+    object-fit: contain;
+  }
