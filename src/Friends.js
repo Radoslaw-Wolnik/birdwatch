@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from './supabaseClient';
 import { useAuth } from './SupabaseContext';
 import AuthCheck from './AuthCheck';
@@ -22,7 +22,7 @@ const Friends = () => {
   // and have usernames from usernames[user.id] || '' - our custom hook
 
 
-  const fetchRequestData = async () => {
+  const fetchRequestData = useCallback(async () => {
     try {
       const { data: requests, error: requestError } = await supabase
         .from('Friends')
@@ -36,9 +36,9 @@ const Friends = () => {
     } catch (error) {
       console.error('Error fetching friend data:', error.message);
     }
-  };
+  }, [user.id]);
 
-  const fetchFriendData = async () => {
+  const fetchFriendData = useCallback(async () => {
     try {
       const { data: friendsData, error: friendsError } = await supabase
         .from('Friends')
@@ -53,9 +53,9 @@ const Friends = () => {
     } catch (error) {
       console.error('Error fetching friend data:', error.message);
     }
-  };
+  }, [user.id]);
     
-  const fetchPurgatoryData = async () => {
+  const fetchPurgatoryData = useCallback(async () => {
     try {
       const { data: purgatoryData, error: purgatoryError } = await supabase
         .from('Friends')
@@ -71,7 +71,7 @@ const Friends = () => {
     } catch (error) {
       console.error('Error fetching friend data:', error.message);
     }
-  };
+  }, [user.id]);
   
   useEffect(() => {
     if (user.id) {
@@ -79,7 +79,7 @@ const Friends = () => {
       fetchFriendData();
       fetchPurgatoryData();
     }
-  }, [user.id]);
+  }, [user.id, fetchRequestData, fetchFriendData, fetchPurgatoryData]);
   
 
   const handleSearchQueryChange = (e) => {

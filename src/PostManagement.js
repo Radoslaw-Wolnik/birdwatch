@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from './supabaseClient';
 import { useAuth } from './SupabaseContext';
 import useFetchNames from './useFetchNames';
@@ -20,11 +20,7 @@ const PostManagement = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchPosts();
-  }, [currentPage, searchQuery]);
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback (async () => {
     try {
       const { data, error, count } = await supabase
         .from('Posts')
@@ -39,7 +35,11 @@ const PostManagement = () => {
     } catch (error) {
       console.error('Error fetching posts:', error.message);
     }
-  };
+  }, [currentPage, searchQuery]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const handleInputChange = (e) => {
     setNewPost({ ...newPost, [e.target.name]: e.target.value });

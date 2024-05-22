@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 import { supabase } from './supabaseClient';
 import useFetchNames from './useFetchNames';
@@ -22,7 +22,7 @@ const MapPage = ({ match }) => {
   const { birdNames, loading} = useFetchNames();
 
 
-  const initializeMap = async () => {
+  const initializeMap = useCallback(async () => {
     try {
       //console.log(lat, lng);
 
@@ -54,7 +54,7 @@ const MapPage = ({ match }) => {
       console.error('Error initializing map:', err);
       setErrorMap(err.message);
     }
-  };
+  }, [lat, lng, createMap]);
 
   const createMap = async (center) => {
     try {
@@ -169,7 +169,7 @@ const MapPage = ({ match }) => {
     if (scriptLoaded && loader) {
       initializeMap();
     }
-  }, [scriptLoaded, loader]);
+  }, [scriptLoaded, loader, initializeMap]);
 
   const handleCloseModal = () => {
     setShowModal(false);
