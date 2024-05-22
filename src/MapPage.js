@@ -116,7 +116,7 @@ const MapPage = ({ match }) => {
       console.error('Error creating map:', err);
       setErrorMap(err.message);
     }
-  },[loadingMap, birdNames, setErrorMap, setPlaces, setSelectedPost, setSelectedBirdName, setSelectedUsername, setShowModal, mapRef, loading, places]);
+  },[birdNames, setErrorMap, setPlaces, setSelectedPost, setSelectedBirdName, setSelectedUsername, setShowModal, mapRef, loading, places]);
   // was [loadingMap, birdNames] before including absolutly everythong
 
 
