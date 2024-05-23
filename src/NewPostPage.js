@@ -17,6 +17,7 @@ const NewPostPage = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
   // const [markerLocation, setMarkerLocation] = useState(null)
 
   const userId = user ? user.id : null; // Extract userId from user object
@@ -71,6 +72,10 @@ const NewPostPage = () => {
   
       const updateMarkerPosition = () => {
         setMarker(newMarker);
+        setMarkerPosition({
+          lat: newMarker.getPosition().lat(),
+          lng: newMarker.getPosition().lng(),
+        });
       };
   
       newMarker.addListener('dragend', updateMarkerPosition);
@@ -210,11 +215,11 @@ const NewPostPage = () => {
             <label htmlFor="image">Upload Images:</label>
             <input type="file" id="image" multiple onChange={handleImageChange} />
           </div>
-          {location && (
+          {markerPosition && (
             <div>
               <p>Pin location:</p>
-              <p>Latitude: {marker?.getPosition().lat()}</p>
-              <p>Longitude: {marker?.getPosition().lng()}</p>
+              <p>Latitude: {markerPosition.lat}</p>
+              <p>Longitude: {markerPosition.lng}</p>
             </div>
           )}
           <div ref={mapRef} style={{ height: '400px' }} />
