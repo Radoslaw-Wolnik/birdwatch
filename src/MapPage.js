@@ -21,6 +21,7 @@ const MapPage = ({ match }) => {
 
   const { birdNames, loading} = useFetchNames();
 
+  const [locationSet, setLocationSet] = useState(false);
 
 
   const createMap = useCallback(async (center) => {
@@ -136,43 +137,46 @@ const MapPage = ({ match }) => {
 
   const initializeMap = useCallback(async () => {
     try {
-      //console.log(lat, lng);
-
-      if (!lat || !lng) {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
-              createMap(userLocation);
-            },
-            () => {
-              const defaultLocation = { lat: 51.5074, lng: -0.1278 };
-              createMap(defaultLocation);
-            }
-          );
+      if (!locationSet) {
+        if (!lat || !lng) {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const userLocation = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+                createMap(userLocation);
+                setLocationSet(true);
+              },
+              () => {
+                const defaultLocation = { lat: 51.5074, lng: -0.1278 };
+                createMap(defaultLocation);
+                setLocationSet(true);
+              }
+            );
+          } else {
+            const defaultLocation = { lat: 51.5074, lng: -0.1278 };
+            createMap(defaultLocation);
+            setLocationSet(true);
+          }
         } else {
-          const defaultLocation = { lat: 51.5074, lng: -0.1278 };
-          createMap(defaultLocation);
+          const receivedLocation = { lat: parseFloat(lat), lng: parseFloat(lng) };
+          createMap(receivedLocation);
+          setLocationSet(true);
         }
-      } else {
-        //console.log(typeof lat, lat);
-        const receivedLocation = { lat: parseFloat(lat), lng: parseFloat(lng) };
-        createMap(receivedLocation);
       }
     } catch (err) {
       console.error('Error initializing map:', err);
       setErrorMap(err.message);
     }
-  }, [lat, lng, createMap]);
+  }, [lat, lng, createMap, locationSet]);
 
   useEffect(() => {
-    if (scriptLoaded && loader) {
+    if (scriptLoaded && loader && !locationSet) {
       initializeMap();
     }
-  }, [scriptLoaded, loader, initializeMap]);
+  }, [scriptLoaded, loader, initializeMap, locationSet]);
 
   const handleCloseModal = () => {
     setShowModal(false);
