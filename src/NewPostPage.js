@@ -78,13 +78,19 @@ const NewPostPage = () => {
         });
       };
   
+      const clearMarkerListeners = () => {
+        if (marker) {
+          marker.removeListener('dragend', updateMarkerPosition);
+          marker.removeListener('position_changed', updateMarkerPosition);
+        }
+      };
+  
       newMarker.addListener('dragend', updateMarkerPosition);
       newMarker.addListener('position_changed', updateMarkerPosition);
   
-      return () => {
-        newMarker.removeListener('dragend', updateMarkerPosition);
-        newMarker.removeListener('position_changed', updateMarkerPosition);
-      };
+      setMarker(newMarker);
+  
+      return clearMarkerListeners;
     }
   }, [map, location]);
 
