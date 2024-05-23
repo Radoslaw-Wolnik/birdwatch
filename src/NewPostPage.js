@@ -62,27 +62,26 @@ const NewPostPage = () => {
   }, [location]);
 
   useEffect(() => {
-    if (map) {
-      const marker = new window.google.maps.Marker({
-        position: map.getCenter(),
+    if (map && location) {
+      const newMarker = new window.google.maps.Marker({
+        position: location,
         map: map,
         draggable: true,
       });
-      setMarker(marker);
-      // console.log(marker);
-
-      map.addListener('click', (event) => {
-        marker.setPosition(event.latLng);
-        // setMarkerLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-        //setLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-      });
-
-      marker.addListener('dragend', () => {
-        //setLocation({ lat: marker.getPosition().lat(), lng: marker.getPosition().lng() });
-        // setMarkerLocation({ lat: marker.getPosition().lat(), lng: marker.getPosition().lng() });
-      });
+  
+      const updateMarkerPosition = () => {
+        setMarker(newMarker);
+      };
+  
+      newMarker.addListener('dragend', updateMarkerPosition);
+      newMarker.addListener('position_changed', updateMarkerPosition);
+  
+      return () => {
+        newMarker.removeListener('dragend', updateMarkerPosition);
+        newMarker.removeListener('position_changed', updateMarkerPosition);
+      };
     }
-  }, [map]);
+  }, [map, location]);
 
   
   const handleBirdChange = (event) => {
