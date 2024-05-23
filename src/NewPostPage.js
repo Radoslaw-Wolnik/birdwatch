@@ -17,7 +17,7 @@ const NewPostPage = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
-  const [markerPosition, setMarkerPosition] = useState(null);
+  //const [markerPosition, setMarkerPosition] = useState(null);
   // const [markerLocation, setMarkerLocation] = useState(null)
 
   const userId = user ? user.id : null; // Extract userId from user object
@@ -69,19 +69,14 @@ const NewPostPage = () => {
         map: map,
         draggable: true,
       });
-      setMarker(newMarker);
+      // Use functional update to avoid adding 'marker' as a dependency
   
-      const updateMarkerPosition = (event) => {
-        marker.setPosition(event.latLng);
-        setMarkerPosition({
-          lat: marker.getPosition().lat(),
-          lng: marker.getPosition().lng(),
-        });
+      const updateMarkerPosition = () => {
+        setMarker(newMarker);
+        console.log(marker.getPosition().lat());
       };
       
-      map.addListener('click', (event) => {
-        updateMarkerPosition(event)
-      });
+      map.addListener('click', updateMarkerPosition);
       newMarker.addListener('dragend', updateMarkerPosition);
       //newMarker.addListener('position_changed', updateMarkerPosition);
   
@@ -220,11 +215,11 @@ const NewPostPage = () => {
             <label htmlFor="image">Upload Images:</label>
             <input type="file" id="image" multiple onChange={handleImageChange} />
           </div>
-          {markerPosition && (
+          {marker && (
             <div>
               <p>Pin location:</p>
               <p>Latitude: {marker.getPosition().lat()}</p>
-              <p>Longitude: {markerPosition.lng}</p>
+              <p>Longitude: {marker.getPosition().lng()}</p>
             </div>
           )}
           <div ref={mapRef} style={{ height: '400px' }} />
