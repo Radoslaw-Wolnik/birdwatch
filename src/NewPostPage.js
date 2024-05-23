@@ -69,7 +69,7 @@ const NewPostPage = () => {
         map: map,
         draggable: true,
       });
-      setMarker(marker);
+      setMarker(newMarker);
   
       const updateMarkerPosition = (event) => {
         marker.setPosition(event.latLng);
