@@ -19,7 +19,7 @@ const MapPage = ({ match }) => {
   const [selectedBirdName, setSelectedBirdName] = useState('');
   const [selectedUsername, setSelectedUsername] = useState('');
 
-  const { birdNames, loading} = useFetchNames();
+  const { birdNames } = useFetchNames();
 
   const [locationSet, setLocationSet] = useState(false);
   const mapInstanceRef = useRef(null);
@@ -50,7 +50,7 @@ const MapPage = ({ match }) => {
       console.error('Error creating map:', err);
       setErrorMap(err.message);
     }
-  },[setErrorMap, setPlaces, mapInstanceRef]);
+  },[setErrorMap, setPlaces, mapInstanceRef, mapRef]);
   // was [loadingMap, birdNames] before including absolutly everythong
 
   const createMarkers = (places, birdNames) => {
