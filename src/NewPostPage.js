@@ -24,7 +24,7 @@ const NewPostPage = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: 'AIzaSyARi-kUu_m7dTo5nXxLjPfiueU8iC4EIAU',
+      apiKey: process.env.REACT_APP_GMAPS_KEY,
       version: 'weekly',
     });
 
@@ -69,6 +69,7 @@ const NewPostPage = () => {
         map: map,
         draggable: true,
       });
+      setMarker(marker);
   
       const updateMarkerPosition = (event) => {
         marker.setPosition(event.latLng);
