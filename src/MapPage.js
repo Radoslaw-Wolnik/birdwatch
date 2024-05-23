@@ -22,15 +22,18 @@ const MapPage = ({ match }) => {
   const { birdNames, loading} = useFetchNames();
 
   const [locationSet, setLocationSet] = useState(false);
-
+  const mapInstanceRef = useRef(null);
 
   const createMap = useCallback(async (center) => {
     try {
 
-      const map = new window.google.maps.Map(mapRef.current, {
+      const newMap = new window.google.maps.Map(mapRef.current, {
         center: center,
         zoom: 12,
       });
+
+      // Store the map instance in the mapInstanceRef
+      mapInstanceRef.current = newMap;
 
       const { data, error } = await supabase.from('Places').select('*');
 
@@ -42,16 +45,25 @@ const MapPage = ({ match }) => {
 
       setPlaces(data);
 
-      if (loading || error) {
-        // If still loading or there's an error, don't render markers
-        return;
-      }
+      setLoadingMap(false); // Set loading to false after map is initialized
+    } catch (err) {
+      console.error('Error creating map:', err);
+      setErrorMap(err.message);
+    }
+  },[setErrorMap, setPlaces, mapInstanceRef]);
+  // was [loadingMap, birdNames] before including absolutly everythong
 
-      places.forEach((place) => {
-        //console.log(place);
-        const iconSrc = `${supabase.storage.url}/object/public/Bird_Icons/${place.bird_id}.png`;
-        //console.log(iconSrc);
-        const markerIcon = iconSrc
+  const createMarkers = (places, birdNames) => {
+    const map = mapInstanceRef.current;
+    // Clear existing markers (if any)
+    if (map.markers) {
+      map.markers.forEach((marker) => marker.setMap(null));
+    }
+  
+    // Create new markers
+    const newMarkers = places.map((place) => {
+      const iconSrc = `${supabase.storage.url}/object/public/Bird_Icons/${place.bird_id}.png`;
+      const markerIcon = iconSrc
         ? {
             url: iconSrc,
             scaledSize: new window.google.maps.Size(32, 32),
@@ -64,62 +76,58 @@ const MapPage = ({ match }) => {
             strokeWeight: 1,
             strokeColor: 'white',
           };
-
+  
       const marker = new window.google.maps.Marker({
         position: { lat: place.lat, lng: place.lng },
         map: map,
         title: birdNames[place.bird_id],
         icon: markerIcon,
       });
-
-        marker.addListener('mouseover', () => {
-
-          // Show bird photo on hover
-          // no i dont want that any more
-        });
-
-        marker.addListener('click', async () => {
-          try {
-            const { data: postData, error } = await supabase
-              .from('Posts')
-              .select('*')
-              .eq('id', place.post_id)
+  
+      marker.addListener('click', async () => {
+        try {
+          const { data: postData, error } = await supabase
+            .from('Posts')
+            .select('*')
+            .eq('id', place.post_id)
+            .single();
+  
+          if (error) {
+            console.error('Error fetching post:', error.message);
+          } else {
+            const { data: userData, error: userError } = await supabase
+              .from('profiles')
+              .select('username')
+              .eq('id', postData.user_id)
               .single();
-
-            if (error) {
-              console.error('Error fetching post:', error.message);
+  
+            if (userError) {
+              console.error('Error fetching user:', userError.message);
             } else {
-              const { data: userData, error: userError } = await supabase
-                .from('profiles')
-                .select('username')
-                .eq('id', postData.user_id)
-                .single();
-
-              if (userError) {
-                console.error('Error fetching user:', userError.message);
-              } else {
-                setSelectedPost(postData);
-                setSelectedBirdName(birdNames[place.bird_id]);
-                setSelectedUsername(userData.username);
-                setShowModal(true);
-              }
+              setSelectedPost(postData);
+              setSelectedBirdName(birdNames[place.bird_id]);
+              setSelectedUsername(userData.username);
+              setShowModal(true);
             }
-          } catch (err) {
-            console.error('Error fetching post and user data:', err);
           }
-        });
-
-
+        } catch (err) {
+          console.error('Error fetching post and user data:', err);
+        }
       });
+  
+      return marker;
+    });
+  
+    // Store the new markers on the map object
+    map.markers = newMarkers;
+  };
 
-      setLoadingMap(false); // Set loading to false after map is initialized
-    } catch (err) {
-      console.error('Error creating map:', err);
-      setErrorMap(err.message);
+
+  useEffect(() => {
+    if (mapInstanceRef.current && places.length > 0 && birdNames) {
+      createMarkers(places, birdNames);
     }
-  },[birdNames, setErrorMap, setPlaces, setSelectedPost, setSelectedBirdName, setSelectedUsername, setShowModal, mapRef, loading, places]);
-  // was [loadingMap, birdNames] before including absolutly everythong
-
+  }, [places, birdNames]);
 
   useEffect(() => {
     const initializeScript = async () => {
