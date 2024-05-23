@@ -73,7 +73,7 @@ const NewPostPage = () => {
   
       const updateMarkerPosition = () => {
         setMarker(newMarker);
-        console.log(marker.getPosition().lat());
+        //console.log(marker.getPosition().lat());
       };
       
       map.addListener('click', updateMarkerPosition);
