@@ -69,6 +69,7 @@ const NewPostPage = () => {
         map: map,
         draggable: true,
       });
+      
       // Use functional update to avoid adding 'marker' as a dependency
   
       const updateMarkerPosition = () => {
@@ -76,14 +77,17 @@ const NewPostPage = () => {
         //console.log(marker.getPosition().lat());
       };
       
-      map.addListener('click', updateMarkerPosition);
+      // map.addListener('click', updateMarkerPosition);
       newMarker.addListener('dragend', updateMarkerPosition);
-      //newMarker.addListener('position_changed', updateMarkerPosition);
+      newMarker.addListener('position_changed', updateMarkerPosition);
+      
+      // Update the marker state with the initial marker
+      setMarker(newMarker);
   
       return () => {
-        map.removeListener('click');
+        // map.removeListener('click');
         newMarker.removeListener('dragend', updateMarkerPosition);
-        //newMarker.removeListener('position_changed', updateMarkerPosition);
+        newMarker.removeListener('position_changed', updateMarkerPosition);
       };
     }
   }, [map, location]);
