@@ -70,27 +70,25 @@ const NewPostPage = () => {
         draggable: true,
       });
   
-      const updateMarkerPosition = () => {
-        setMarker(newMarker);
+      const updateMarkerPosition = (event) => {
+        marker.setPosition(event.latLng);
         setMarkerPosition({
-          lat: newMarker.getPosition().lat(),
-          lng: newMarker.getPosition().lng(),
+          lat: marker.getPosition().lat(),
+          lng: marker.getPosition().lng(),
         });
       };
-  
-      const clearMarkerListeners = () => {
-        if (marker) {
-          marker.removeListener('dragend', updateMarkerPosition);
-          marker.removeListener('position_changed', updateMarkerPosition);
-        }
-      };
-  
+      
+      map.addListener('click', (event) => {
+        updateMarkerPosition(event)
+      });
       newMarker.addListener('dragend', updateMarkerPosition);
-      newMarker.addListener('position_changed', updateMarkerPosition);
+      //newMarker.addListener('position_changed', updateMarkerPosition);
   
-      setMarker(newMarker);
-  
-      return clearMarkerListeners;
+      return () => {
+        map.removeListener('click');
+        newMarker.removeListener('dragend', updateMarkerPosition);
+        //newMarker.removeListener('position_changed', updateMarkerPosition);
+      };
     }
   }, [map, location]);
 
@@ -224,7 +222,7 @@ const NewPostPage = () => {
           {markerPosition && (
             <div>
               <p>Pin location:</p>
-              <p>Latitude: {markerPosition.lat}</p>
+              <p>Latitude: {marker.getPosition().lat()}</p>
               <p>Longitude: {markerPosition.lng}</p>
             </div>
           )}
