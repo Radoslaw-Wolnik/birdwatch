@@ -24,7 +24,8 @@ const NewPostPage = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: process.env.REACT_APP_GMAPS_KEY,
+      // proces.env.REACT_APP_GMAP_KEY
+      apiKey: 'AIzaSyARi-kUu_m7dTo5nXxLjPfiueU8iC4EIAU',
       version: 'weekly',
     });
 
@@ -72,22 +73,29 @@ const NewPostPage = () => {
       
       // Use functional update to avoid adding 'marker' as a dependency
   
-      const updateMarkerPosition = () => {
-        setMarker(newMarker);
-        //console.log(marker.getPosition().lat());
+      const updateMarkerPosition = (event) => {
+        const newPosition = event.latLng;
+        newMarker.setPosition(newPosition);
+        setMarker(() => {
+          console.log(newMarker.getPosition().lat());
+          console.log(newMarker.getPosition().lng());
+          return newMarker;
+        });
       };
       
-      // map.addListener('click', updateMarkerPosition);
+      map.addListener('click', updateMarkerPosition);
       newMarker.addListener('dragend', updateMarkerPosition);
-      newMarker.addListener('position_changed', updateMarkerPosition);
+      //newMarker.addListener('position_changed', updateMarkerPosition);
       
       // Update the marker state with the initial marker
       setMarker(newMarker);
   
       return () => {
+        window.google.maps.event.clearInstanceListeners(newMarker);
+        window.google.maps.event.clearInstanceListeners(map);
         // map.removeListener('click');
-        newMarker.removeListener('dragend', updateMarkerPosition);
-        newMarker.removeListener('position_changed', updateMarkerPosition);
+        // newMarker.removeListener('dragend', updateMarkerPosition);
+        // newMarker.removeListener('position_changed', updateMarkerPosition);
       };
     }
   }, [map, location]);
