@@ -73,3 +73,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### Error maps loading
 Google Maps JavaScript API error: RefererNotAllowedMapError
 https://developers.google.com/maps/documentation/javascript/error-messages#referer-not-allowed-map-error
+
+https://www.piskelapp.com/
+https://www.pixilart.com/
