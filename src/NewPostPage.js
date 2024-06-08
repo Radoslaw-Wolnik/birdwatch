@@ -102,9 +102,9 @@ const NewPostPage = () => {
 
   
   const handleBirdChange = (event) => {
-    const selectedBird = event.target.value;
+    const selected = event.target.value;
     console.log(event.target.value);
-    setSelectedBird(selectedBird);
+    setSelectedBird(selected);
   };
 
 
@@ -126,7 +126,7 @@ const NewPostPage = () => {
         images.map(async (photo, index) => {
           const { error } = await supabase.storage
             .from('Posts')
-            .upload(`${userId}/${postId}/${selectedBird.name}_${index}`, photo);
+            .upload(`${userId}/${postId}/${birdNames[selectedBird]}_${index}`, photo);
   
           if (error) {
             throw error;
@@ -150,7 +150,7 @@ const NewPostPage = () => {
         .from('Posts')
         .insert({
           user_id: userId,
-          bird_id: selectedBird.id,
+          bird_id: selectedBird,
           description: description,
           lat: marker ? marker.getPosition().lat() : null,
           lng: marker ? marker.getPosition().lng() : null,
