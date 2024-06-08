@@ -103,7 +103,7 @@ const NewPostPage = () => {
   
   const handleBirdChange = (event) => {
     const selectedBird = event.target.value;
-    console.log(event.target);
+    console.log(event.target.value);
     setSelectedBird(selectedBird);
   };
 
