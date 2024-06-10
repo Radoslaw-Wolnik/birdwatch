@@ -4,6 +4,7 @@ import { supabase } from './supabaseClient';
 import './NewPostPage.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import useFetchNames from './useFetchNames';
+import KomunikatModal from './KomunikatModal';
 
 const NewPostPage = () => {
   const { user } = useAuth();
@@ -12,6 +13,8 @@ const NewPostPage = () => {
   const [images, setImages] = useState([]);
   const [location, setLocation] = useState(null);
   const { birdNames, loading : loadingBirdNames, error : errorBirdNames} = useFetchNames();
+
+  const [showKomunikatModal, setShowKomunikatModal] = useState(false);
 
 
   const mapRef = useRef(null);
@@ -178,12 +181,22 @@ const NewPostPage = () => {
           console.error('Error uploading or inserting photos:', error.message);
         }
       }
-  
+      
       // Handle post submission success...
+      handleOpenModal();
       console.log('Post created successfully');
     } catch (error) {
       console.error('Error submitting post:', error.message);
     }
+  };
+
+  const handleOpenModal = () => {
+    setShowKomunikatModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowKomunikatModal(false);
+    // here we could redirect after login out
   };
   
   return (
@@ -238,6 +251,7 @@ const NewPostPage = () => {
           <div ref={mapRef} style={{ height: '400px' }} />
           <button type="submit">Post</button>
         </form>
+        <KomunikatModal isOpen={showKomunikatModal} onClose={handleCloseModal} title="Success" description="Post created succesfully" />
       </main>
     </div>
   );
